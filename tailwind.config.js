@@ -4,6 +4,7 @@ export default {
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
+  darkMode: 'class',
   theme: {
     extend: {
       colors: {
@@ -15,6 +16,12 @@ export default {
       },
       fontFamily: {
         sans: ['Inter', 'sans-serif'],
+      },
+      backgroundColor: {
+        'whatsapp-chat': {
+          light: '#E5DDD5',
+          dark: '#0B141A',
+        },
       },
     },
   },

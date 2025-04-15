@@ -1,23 +1,31 @@
-# WhatsAppifiyer
+# WhatsAppifiyer for Business
 
-A modern web application for creating perfect WhatsApp messages using AI.
+A modern web application for creating perfect WhatsApp Business messages using AI. WhatsAppifiyer helps businesses craft the ideal messages for customer communication by leveraging powerful language models, following WhatsApp Business Platform guidelines and best practices.
 
 ## Features
 
-- Input content in any format
-- Select from various message types (casual, professional, announcements, etc.)
-- Choose from different AI models
-- Generate perfectly formatted WhatsApp messages
-- Copy messages to clipboard with one click
+- Input content in any format (notes, bullet points, ideas, etc.)
+- Select from WhatsApp Business message categories (Service, Utility, Authentication, Marketing)
+- Choose from different AI models including free options
+- Generate perfectly formatted WhatsApp Business messages with placeholders
+- Customize messages with WhatsApp formatting (bold, italic, etc.)
+- Save and manage your message history
+- User accounts to sync your messages across devices
+- Dark mode support for comfortable use at any time
+- Business-specific message templates for common scenarios
+- Real-time WhatsApp Business preview with proper message formatting
+- Character counter to ensure messages meet WhatsApp Business limits
 
 ## Technology Stack
 
-- React
-- TypeScript
-- Vite
-- Tailwind CSS
-- Hugging Face API
-- OpenRouter API
+- React with TypeScript for type safety
+- Vite for fast development and building
+- Tailwind CSS for responsive, modern UI
+- Google Gemini API for AI text generation
+- Hugging Face API for free AI models
+- OpenRouter API for additional model options
+- Local Storage for message history
+- Context API for state management
 
 ## Getting Started
 
@@ -47,12 +55,28 @@ A modern web application for creating perfect WhatsApp messages using AI.
 
 ## Usage
 
-1. Enter your content in the text area
-2. Select a message type
-3. Choose an AI model
+1. Enter your content in the text area or select from business message templates
+2. Select a WhatsApp Business message category (Service, Utility, Authentication, Marketing)
+3. Choose an AI model based on your needs
 4. Click "Generate Perfect WhatsApp Message"
-5. Copy the generated message to your clipboard
-6. Paste into WhatsApp and send
+5. Customize the generated message with formatting options if needed
+6. Preview how the message will appear in WhatsApp Business
+7. Copy the generated message to your clipboard
+8. Use in your WhatsApp Business Platform implementation
+
+## WhatsApp Business Message Categories
+
+### Service Messages
+Responses to customer inquiries within the 24-hour service window. These are free-form messages that don't require pre-approval and can be sent after a customer initiates contact.
+
+### Utility Templates
+Transaction-related messages like order confirmations, shipping updates, appointment reminders, and payment receipts. These templates require WhatsApp approval before use.
+
+### Authentication Templates
+One-time passcodes and verification messages for account security. These templates are short, focused, and require WhatsApp approval.
+
+### Marketing Templates
+Promotional messages for product launches, special offers, event invitations, and other marketing communications. These require explicit user opt-in and WhatsApp approval.
 
 ## License
 

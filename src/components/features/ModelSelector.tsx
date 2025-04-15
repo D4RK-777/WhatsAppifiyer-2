@@ -14,28 +14,35 @@ const ModelSelector: React.FC<ModelSelectorProps> = ({
   onSelectModel,
 }) => {
   return (
-    <div className="mb-6">
-      <h3 className="text-lg font-medium mb-3">Select AI Model</h3>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+    <div>
+      <h3 className="text-lg font-medium mb-3">AI Model</h3>
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 max-h-[300px] overflow-y-auto pr-1">
         {models.map((model) => (
           <div
             key={model.id}
-            className={`cursor-pointer transition-all duration-200 transform hover:scale-105 ${
+            className={`cursor-pointer transition-all duration-200 ${
               selectedModel?.id === model.id
-                ? 'ring-2 ring-whatsapp scale-105'
+                ? 'ring-2 ring-whatsapp'
                 : ''
             }`}
             onClick={() => onSelectModel(model)}
           >
-            <Card className="h-full">
-              <div className="flex justify-between items-start mb-2">
-                <h4 className="font-medium text-lg">{model.name}</h4>
-                <span className="text-xs bg-gray-200 text-gray-800 px-2 py-0.5 rounded-full">
-                  {model.provider}
-                </span>
+            <Card className="h-full p-3">
+              <div className="flex justify-between items-start mb-1">
+                <h4 className="font-medium text-sm">{model.name}</h4>
+                <div className="flex space-x-1">
+                  {model.isFree && (
+                    <span className="text-xs bg-green-100 text-green-800 px-1.5 py-0.5 rounded-full text-[10px]">
+                      Free
+                    </span>
+                  )}
+                  <span className="text-xs bg-gray-200 text-gray-800 px-1.5 py-0.5 rounded-full text-[10px]">
+                    {model.provider}
+                  </span>
+                </div>
               </div>
               {model.description && (
-                <p className="text-gray-600 text-sm">{model.description}</p>
+                <p className="text-gray-600 text-xs dark:text-gray-300 line-clamp-2">{model.description}</p>
               )}
             </Card>
           </div>

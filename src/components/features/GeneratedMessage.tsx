@@ -1,29 +1,42 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Card from '../common/Card';
 import Button from '../common/Button';
+import WhatsAppPreview from './WhatsAppPreview';
+import TypingAnimation from './TypingAnimation';
+import CharacterCounter from './CharacterCounter';
+import MessageCustomizer from './MessageCustomizer';
 
 interface GeneratedMessageProps {
   message: string;
   isLoading: boolean;
+  onSaveMessage?: () => void;
+  onUpdateMessage?: (updatedMessage: string) => void;
+  maxLength?: number;
+  messageCategory?: string;
 }
 
 const GeneratedMessage: React.FC<GeneratedMessageProps> = ({
   message,
   isLoading,
+  onSaveMessage,
+  onUpdateMessage,
+  maxLength = 1024,
+  messageCategory,
 }) => {
+  const [copied, setCopied] = useState(false);
+
   const copyToClipboard = () => {
     navigator.clipboard.writeText(message);
-    alert('Message copied to clipboard!');
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
   };
 
   if (isLoading) {
     return (
-      <Card className="bg-gray-50 animate-pulse">
-        <div className="h-4 bg-gray-300 rounded w-3/4 mb-2"></div>
-        <div className="h-4 bg-gray-300 rounded w-1/2 mb-2"></div>
-        <div className="h-4 bg-gray-300 rounded w-5/6 mb-2"></div>
-        <div className="h-4 bg-gray-300 rounded w-2/3"></div>
-      </Card>
+      <div className="mt-8">
+        <h3 className="text-lg font-medium mb-3">Generating your message...</h3>
+        <TypingAnimation />
+      </div>
     );
   }
 
@@ -34,14 +47,36 @@ const GeneratedMessage: React.FC<GeneratedMessageProps> = ({
   return (
     <div className="mt-8">
       <h3 className="text-lg font-medium mb-3">Your Perfect WhatsApp Message</h3>
-      <Card className="bg-green-50 border border-green-100">
+      <Card className={`${messageCategory === 'marketing' ? 'bg-green-50 border border-green-100' :
+                       messageCategory === 'utility' ? 'bg-blue-50 border border-blue-100' :
+                       messageCategory === 'authentication' ? 'bg-purple-50 border border-purple-100' :
+                       messageCategory === 'service' ? 'bg-amber-50 border border-amber-100' :
+                       'bg-green-50 border border-green-100'}`}>
         <div className="whitespace-pre-wrap mb-4">{message}</div>
-        <div className="flex justify-end">
+        <CharacterCounter text={message} maxLength={maxLength} />
+        <div className="flex justify-between mt-4">
+          {onSaveMessage && (
+            <Button
+              variant="secondary"
+              onClick={onSaveMessage}
+            >
+              Save Message
+            </Button>
+          )}
           <Button onClick={copyToClipboard}>
-            Copy to Clipboard
+            {copied ? 'Copied!' : 'Copy to Clipboard'}
           </Button>
         </div>
       </Card>
+
+      {onUpdateMessage && (
+        <MessageCustomizer
+          message={message}
+          onApplyCustomization={onUpdateMessage}
+        />
+      )}
+
+      <WhatsAppPreview message={message} messageCategory={messageCategory} />
     </div>
   );
 };

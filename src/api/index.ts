@@ -1,5 +1,6 @@
 import { generateWithHuggingFace } from './huggingface';
 import { generateWithOpenRouter } from './openrouter';
+import { generateWithGoogle } from './google';
 import { ApiResponse } from '../types/api';
 import { GenerateMessageParams, GenerateMessageResult } from '../types/app';
 
@@ -27,6 +28,12 @@ export const generateMessage = async ({
     } else if (model.provider === 'openrouter') {
       response = await generateWithOpenRouter(
         model.id,
+        messages,
+        model.maxTokens,
+        0.7
+      );
+    } else if (model.provider === 'google') {
+      response = await generateWithGoogle(
         messages,
         model.maxTokens,
         0.7
