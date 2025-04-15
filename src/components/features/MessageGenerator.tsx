@@ -178,28 +178,28 @@ const MessageGenerator: React.FC = () => {
 
   return (
     <div className="max-w-6xl mx-auto px-4">
-      <div className="text-center mb-6">
-        <p className="text-lg text-gray-600 dark:text-gray-300">
-          Input your content in any format, select your use case, and let our AI generate the perfect WhatsApp message for you.
-        </p>
-      </div>
+<div className="text-center mb-8">
+  <p className="text-xl text-gray-700 dark:text-gray-300 leading-relaxed">
+    Input your content in any format, select your use case, and let our AI generate the perfect WhatsApp message for you.
+  </p>
+</div>
 
       {/* Message Type filter at the top */}
-      <div className="mb-6 flex flex-wrap gap-3 justify-center">
-        {['all', 'service', 'utility', 'authentication', 'marketing'].map(category => (
-          <button
-            key={category}
-            onClick={() => handleCategoryChange(category)}
-            className={`px-5 py-2 text-sm rounded-full transition-colors shadow-sm ${category === selectedCategory ? 'bg-whatsapp text-white font-medium' :
-              category === 'service' ? 'bg-amber-100 text-amber-800 hover:bg-amber-200' :
-              category === 'utility' ? 'bg-blue-100 text-blue-800 hover:bg-blue-200' :
-              category === 'authentication' ? 'bg-purple-100 text-purple-800 hover:bg-purple-200' :
-              'bg-green-100 text-green-800 hover:bg-green-200'}`}
-          >
-            {category === 'all' ? 'All Types' : category.charAt(0).toUpperCase() + category.slice(1)}
-          </button>
-        ))}
-      </div>
+<div className="mb-8 flex flex-wrap gap-4 justify-center">
+  {['all', 'service', 'utility', 'authentication', 'marketing'].map(category => (
+    <button
+      key={category}
+      onClick={() => handleCategoryChange(category)}
+      className={`px-6 py-3 text-base rounded-full transition-colors shadow-md ${category === selectedCategory ? 'bg-whatsapp text-white font-semibold' :
+        category === 'service' ? 'bg-amber-100 text-amber-800 hover:bg-amber-200' :
+        category === 'utility' ? 'bg-blue-100 text-blue-800 hover:bg-blue-200' :
+        category === 'authentication' ? 'bg-purple-100 text-purple-800 hover:bg-purple-200' :
+        'bg-green-100 text-green-800 hover:bg-green-200'}`}
+    >
+      {category === 'all' ? 'All Types' : category.charAt(0).toUpperCase() + category.slice(1)}
+    </button>
+  ))}
+</div>
 
       {/* Main 2-column layout: Input on left, Output on right */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
