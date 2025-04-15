@@ -105,6 +105,12 @@ export interface UseCase {
   maxLength?: number;
 }
 
+export interface ToneOfVoice {
+  id: string;
+  name: string;
+  description: string;
+}
+
 export const USE_CASES: UseCase[] = [
   // Service Messages (Customer Service)
   {

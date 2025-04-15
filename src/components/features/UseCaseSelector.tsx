@@ -6,14 +6,23 @@ interface UseCaseSelectorProps {
   useCases: UseCase[];
   selectedUseCase: UseCase | null;
   onSelectUseCase: (useCase: UseCase) => void;
+  initialCategory?: string;
 }
 
 const UseCaseSelector: React.FC<UseCaseSelectorProps> = ({
   useCases,
   selectedUseCase,
   onSelectUseCase,
+  initialCategory,
 }) => {
-  const [selectedCategory, setSelectedCategory] = useState<string>('all');
+  const [selectedCategory, setSelectedCategory] = useState<string>(initialCategory || 'all');
+
+  // Update selected category when initialCategory changes
+  React.useEffect(() => {
+    if (initialCategory) {
+      setSelectedCategory(initialCategory);
+    }
+  }, [initialCategory]);
 
   // Group use cases by category
   const groupedUseCases = useMemo(() => {
@@ -62,7 +71,7 @@ const UseCaseSelector: React.FC<UseCaseSelectorProps> = ({
   };
 
   return (
-    <div>
+    <div className="w-full">
       <div className="flex justify-between items-center mb-3">
         <h3 className="text-lg font-medium">Message Type</h3>
         <div className="flex flex-wrap gap-1 overflow-x-auto">
@@ -80,7 +89,7 @@ const UseCaseSelector: React.FC<UseCaseSelectorProps> = ({
         </div>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 max-h-[300px] overflow-y-auto pr-1">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 pr-1">
         {filteredUseCases.map((useCase) => (
           <div
             key={useCase.id}

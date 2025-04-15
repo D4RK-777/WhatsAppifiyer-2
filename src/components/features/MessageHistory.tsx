@@ -1,6 +1,7 @@
 import React from 'react';
 import { SavedMessage } from '../../types/app';
 import Card from '../common/Card';
+import GlowingCard from '../common/GlowingCard';
 
 interface MessageHistoryProps {
   messages: SavedMessage[];
@@ -22,7 +23,13 @@ const MessageHistory: React.FC<MessageHistoryProps> = ({
       <h3 className="text-lg font-medium mb-2">History</h3>
       <div className="space-y-2">
         {messages.map((msg) => (
-          <Card key={msg.id} className="bg-gray-50 hover:bg-gray-100 transition-colors p-2">
+          <GlowingCard
+            key={msg.id}
+            className="p-2"
+            type="message"
+            disabled={false}
+            glow={false}
+          >
             <div className="flex justify-between">
               <div className="flex-1 overflow-hidden">
                 <div className="flex items-center mb-1">
@@ -56,7 +63,7 @@ const MessageHistory: React.FC<MessageHistoryProps> = ({
                 </button>
               </div>
             </div>
-          </Card>
+          </GlowingCard>
         ))}
       </div>
     </div>

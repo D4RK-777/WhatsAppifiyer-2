@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { MESSAGE_TEMPLATES, getTemplatesByCategory, getTemplateCategories, MessageTemplate } from '../../data/templates';
 import { UseCase } from '../../types/models';
 import Card from '../common/Card';
+import GlowingCard from '../common/GlowingCard';
 
 interface TemplateSelectorProps {
   selectedUseCase: UseCase | null;
@@ -47,7 +48,7 @@ const TemplateSelector: React.FC<TemplateSelectorProps> = ({
   };
 
   return (
-    <div>
+    <div className="w-full">
       <div className="flex justify-between items-center mb-2">
         <h3 className="text-lg font-medium">Templates</h3>
         <select
@@ -64,14 +65,19 @@ const TemplateSelector: React.FC<TemplateSelectorProps> = ({
         </select>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 max-h-[300px] overflow-y-auto pr-1">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 pr-1">
         {templates.map((template) => (
           <div
             key={template.id}
             className="cursor-pointer transition-all duration-200"
             onClick={() => onSelectTemplate(template.content)}
           >
-            <Card className="h-full p-2">
+            <GlowingCard
+              className="h-full p-2"
+              type="template"
+              disabled={false}
+              glow={true}
+            >
               <div className="flex justify-between items-start mb-1">
                 <h4 className="font-medium text-xs">{template.name}</h4>
                 <span className={`text-[10px] px-1.5 py-0.5 rounded-full ${template.category === 'utility' ? 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-100' :
@@ -86,7 +92,7 @@ const TemplateSelector: React.FC<TemplateSelectorProps> = ({
                 <p className="text-gray-600 dark:text-gray-300 text-[10px] mb-1 line-clamp-1">{template.description}</p>
               )}
               <p className="text-gray-600 dark:text-gray-300 text-[10px] line-clamp-1 italic">{template.content}</p>
-            </Card>
+            </GlowingCard>
           </div>
         ))}
       </div>

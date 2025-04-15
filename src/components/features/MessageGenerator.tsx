@@ -27,6 +27,7 @@ const MessageGenerator: React.FC = () => {
   const { generateWhatsAppMessage, generatedMessage: originalGeneratedMessage, isGenerating, error } = useMessageGenerator();
   const [generatedMessage, setGeneratedMessage] = useState('');
   const [savedMessages, setSavedMessages] = useState<SavedMessage[]>([]);
+  const [selectedCategory, setSelectedCategory] = useState('all');
   const { isAuthenticated, user } = useAuth();
 
   // Create a user-specific storage key if authenticated
@@ -162,60 +163,95 @@ const MessageGenerator: React.FC = () => {
     }
   };
 
+  // Handle category filter change
+  const handleCategoryChange = (category: string) => {
+    setSelectedCategory(category);
+
+    // If a specific category is selected, find a use case from that category
+    if (category !== 'all') {
+      const useCaseFromCategory = useCases.find(uc => uc.category === category);
+      if (useCaseFromCategory) {
+        setSelectedUseCase(useCaseFromCategory);
+      }
+    }
+  };
+
   return (
-    <div className="relative">
-      {/* Left column - Input and controls */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div className="relative">
-          <div className="mb-6">
-            <ContentInput content={content} setContent={setContent} />
+    <div className="max-w-6xl mx-auto px-4">
+      <div className="text-center mb-6">
+        <p className="text-lg text-gray-600 dark:text-gray-300">
+          Input your content in any format, select your use case, and let our AI generate the perfect WhatsApp message for you.
+        </p>
+      </div>
 
-            {error && (
-              <div className="mt-2 p-3 bg-red-100 text-red-700 rounded-md text-sm">
-                {error}
-              </div>
-            )}
+      {/* Message Type filter at the top */}
+      <div className="mb-6 flex flex-wrap gap-3 justify-center">
+        {['all', 'service', 'utility', 'authentication', 'marketing'].map(category => (
+          <button
+            key={category}
+            onClick={() => handleCategoryChange(category)}
+            className={`px-5 py-2 text-sm rounded-full transition-colors shadow-sm ${category === selectedCategory ? 'bg-whatsapp text-white font-medium' :
+              category === 'service' ? 'bg-amber-100 text-amber-800 hover:bg-amber-200' :
+              category === 'utility' ? 'bg-blue-100 text-blue-800 hover:bg-blue-200' :
+              category === 'authentication' ? 'bg-purple-100 text-purple-800 hover:bg-purple-200' :
+              'bg-green-100 text-green-800 hover:bg-green-200'}`}
+          >
+            {category === 'all' ? 'All Types' : category.charAt(0).toUpperCase() + category.slice(1)}
+          </button>
+        ))}
+      </div>
 
-            <div className="sticky bottom-0 bg-white dark:bg-gray-900 pt-3 pb-2 z-10 mt-4">
-              <Button
-                onClick={handleGenerate}
-                isLoading={isGenerating}
-                disabled={!content || !selectedUseCase || !selectedModel}
-                className="w-full py-3 text-lg"
-              >
-                Generate Perfect WhatsApp Message
-              </Button>
-            </div>
+      {/* Main 2-column layout: Input on left, Output on right */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        {/* Left column - Input */}
+        <div className="w-full">
+
+          <div className="mb-4">
+            <h3 className="text-lg font-medium mb-2">Your Content</h3>
           </div>
 
-          <div className="overflow-y-auto max-h-[400px] pr-2 space-y-4">
-            <TemplateSelector
-              selectedUseCase={selectedUseCase}
-              onSelectTemplate={setContent}
-            />
+          <ContentInput content={content} setContent={setContent} />
 
-            <MessageHistory
-              messages={savedMessages}
-              onSelectMessage={handleSelectSavedMessage}
-              onDeleteMessage={handleDeleteMessage}
-            />
+          {error && (
+            <div className="mt-2 p-3 bg-red-100 text-red-700 rounded-md text-sm">
+              {error}
+            </div>
+          )}
+
+          <div className="mt-4 mb-6">
+            <Button
+              onClick={handleGenerate}
+              isLoading={isGenerating}
+              disabled={!content || !selectedUseCase || !selectedModel}
+              className="w-full py-3 text-lg"
+            >
+              Generate Perfect WhatsApp Message
+            </Button>
           </div>
         </div>
 
-        {/* Right column - Settings and output */}
+        {/* Right column - Output */}
         <div>
-          <div className="mb-6 space-y-6">
-            <UseCaseSelector
-              useCases={useCases}
-              selectedUseCase={selectedUseCase}
-              onSelectUseCase={setSelectedUseCase}
-            />
-
-            <ModelSelector
-              models={models}
-              selectedModel={selectedModel}
-              onSelectModel={setSelectedModel}
-            />
+          <div className="flex justify-between items-center mb-5">
+            <h3 className="text-lg font-medium">Generated Message</h3>
+            <div className="relative">
+              <button
+                className="bg-gray-200 hover:bg-gray-300 text-gray-800 px-4 py-2 rounded-full text-sm flex items-center gap-2 shadow-sm"
+                onClick={() => document.getElementById('modelSelector')?.classList.toggle('hidden')}
+              >
+                <span>AI Model</span>
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
+              <div id="modelSelector" className="absolute right-0 top-full mt-2 w-96 bg-white dark:bg-gray-800 shadow-lg rounded-xl p-5 z-20 hidden border border-gray-100 dark:border-gray-700">
+                <ModelSelector
+                  models={models}
+                  selectedModel={selectedModel}
+                  onSelectModel={setSelectedModel}
+                />
+              </div>
+            </div>
           </div>
 
           <GeneratedMessage
@@ -227,6 +263,33 @@ const MessageGenerator: React.FC = () => {
             messageCategory={selectedUseCase?.category}
           />
         </div>
+      </div>
+
+      {/* Message Type selector outside of column layout */}
+      <div className="mt-8 p-5 bg-gray-50 dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 w-full">
+        <UseCaseSelector
+          useCases={useCases}
+          selectedUseCase={selectedUseCase}
+          onSelectUseCase={setSelectedUseCase}
+          initialCategory={selectedCategory !== 'all' ? selectedCategory : undefined}
+        />
+      </div>
+
+      {/* Templates outside of column layout */}
+      <div className="mt-6 p-5 bg-gray-50 dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 w-full">
+        <TemplateSelector
+          selectedUseCase={selectedUseCase}
+          onSelectTemplate={setContent}
+        />
+      </div>
+
+      {/* Message History below */}
+      <div className="mt-8">
+        <MessageHistory
+          messages={savedMessages}
+          onSelectMessage={handleSelectSavedMessage}
+          onDeleteMessage={handleDeleteMessage}
+        />
       </div>
     </div>
   );

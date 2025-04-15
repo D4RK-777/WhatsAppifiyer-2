@@ -1,6 +1,7 @@
 import React from 'react';
 import { Model } from '../../types/models';
 import Card from '../common/Card';
+import GlowingCard from '../common/GlowingCard';
 
 interface ModelSelectorProps {
   models: Model[];
@@ -16,7 +17,7 @@ const ModelSelector: React.FC<ModelSelectorProps> = ({
   return (
     <div>
       <h3 className="text-lg font-medium mb-3">AI Model</h3>
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 max-h-[300px] overflow-y-auto pr-1">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 pr-1">
         {models.map((model) => (
           <div
             key={model.id}
@@ -27,7 +28,12 @@ const ModelSelector: React.FC<ModelSelectorProps> = ({
             }`}
             onClick={() => onSelectModel(model)}
           >
-            <Card className="h-full p-3">
+            <GlowingCard
+              className="h-full p-3"
+              type="model"
+              disabled={false}
+              glow={selectedModel?.id === model.id}
+            >
               <div className="flex justify-between items-start mb-1">
                 <h4 className="font-medium text-sm">{model.name}</h4>
                 <div className="flex space-x-1">
@@ -44,7 +50,7 @@ const ModelSelector: React.FC<ModelSelectorProps> = ({
               {model.description && (
                 <p className="text-gray-600 text-xs dark:text-gray-300 line-clamp-2">{model.description}</p>
               )}
-            </Card>
+            </GlowingCard>
           </div>
         ))}
       </div>

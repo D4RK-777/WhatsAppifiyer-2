@@ -32,7 +32,7 @@ const WhatsAppPreview: React.FC<WhatsAppPreviewProps> = ({ message, messageCateg
   return (
     <div className="mt-6 mb-8">
       <h3 className="text-lg font-medium mb-3">{getPreviewTitle()}</h3>
-      <div className="max-w-md mx-auto whatsapp-chat-bg p-4 rounded-lg shadow-md transition-colors duration-200">
+      <div className="max-w-md mx-auto whatsapp-chat-bg p-4 rounded-lg shadow-md transition-colors duration-200 min-h-[500px]">
         {/* WhatsApp header */}
         <div className="bg-whatsapp dark:bg-whatsapp-dark p-2 rounded-t-lg flex items-center">
           <div className="w-8 h-8 bg-white rounded-full flex items-center justify-center mr-2">
@@ -56,7 +56,7 @@ const WhatsAppPreview: React.FC<WhatsAppPreviewProps> = ({ message, messageCateg
         )}
 
         {/* Message bubble */}
-        <div className="bg-white dark:bg-gray-700 rounded-lg p-3 shadow-sm relative transition-colors duration-200 mt-2">
+        <div className="bg-white dark:bg-gray-700 rounded-lg p-3 shadow-sm relative transition-colors duration-200 mt-2 min-h-[400px]">
           {/* Message bubble tail */}
           <div className="absolute top-0 left-[-10px] w-0 h-0
                          border-t-[10px] border-t-transparent
@@ -64,7 +64,9 @@ const WhatsAppPreview: React.FC<WhatsAppPreviewProps> = ({ message, messageCateg
                          border-b-[10px] border-b-transparent transition-colors duration-200">
           </div>
 
-          <div className="whitespace-pre-wrap text-gray-800 dark:text-gray-100 transition-colors duration-200">{message}</div>
+          <div className="whitespace-pre-wrap text-gray-800 dark:text-gray-100 transition-colors duration-200 break-words overflow-hidden min-h-[350px]">
+            <span className="inline-block">{message}</span>
+          </div>
 
           <div className="flex justify-end mt-1">
             <span className="text-xs text-gray-500 dark:text-gray-400 transition-colors duration-200">
